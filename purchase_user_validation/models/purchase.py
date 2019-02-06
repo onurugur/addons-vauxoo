@@ -23,24 +23,16 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    "name": "Purchase User Validator",
-    "version": "8.0.0.1.6",
-    "author": "Vauxoo",
-    "category": "",
-    "website": "",
-    "license": "",
-    "depends": [
-        "purchase"
-    ],
-    "demo": [],
-    "data": [
-        "purchase_view.xml"
-    ],
-    "test": [],
-    "js": [],
-    "css": [],
-    "qweb": [],
-    "installable": False,
-    "auto_install": False,
-}
+from odoo import models, fields,api
+
+
+class PurchaseOrder(models.Model):
+    _inherit = "purchase.order"
+    
+    validator_id = fields.Many2one('res.users', 'Validator',readonly=True)
+    
+    @api.multi
+    def button_confirm(self):
+        res = super(PurchaseOrder, self).button_confirm()
+        self.write({'validator_id': self.env.user.id})
+        return res

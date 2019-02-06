@@ -23,18 +23,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from openerp.osv import osv, fields
-
-
-class PurchaseOrder(osv.Model):
-    _inherit = "purchase.order"
-    _columns = {
-        'validator2': fields.many2one('res.users', 'Second Validator',
-                                      readonly=True)
-    }
-
-    def wkf_approve_order(self, cr, uid, ids, context=None):
-        res = super(PurchaseOrder, self).wkf_approve_order(
-            cr, uid, ids, context=context)
-        self.write(cr, uid, ids, {'validator2': uid})
-        return res
+{
+    "name": "Purchase User Validator",
+    "version": "12.0.0.1.6",
+    "author": "Vauxoo",
+    "category": "",
+    "website": "",
+    "license": "",
+    "depends": [
+        "purchase"
+    ],
+    "data": [
+        "views/purchase_view.xml"
+    ],
+    "installable": True,
+    "auto_install": False,
+}
